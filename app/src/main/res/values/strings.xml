@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LinkInfo</string>
+
+
+    <string name="failed_to_load_detail">Failed to load detail</string>
+    <string name="try_again">Try Again</string>
+    <string name="unable_to_load">Unable to load</string>
 </resources>

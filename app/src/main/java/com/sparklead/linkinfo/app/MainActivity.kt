@@ -24,8 +24,11 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.sparklead.linkinfo.R
+import com.sparklead.linkinfo.ui.home.DashboardScreen
 import com.sparklead.linkinfo.ui.theme.LinkInfoTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,14 +36,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LinkInfoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LineGraphNew(
-                        xData = List(10) { it.toFloat() },
-                        yData = List(10) { (0..100).random().toFloat() },
-                        dataLabel = "Sample Data",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    LineGraphNew(
+//                        xData = List(10) { it.toFloat() },
+//                        yData = List(10) { (0..100).random().toFloat() },
+//                        dataLabel = "Sample Data",
+//                        modifier = Modifier.padding(innerPadding)
+//                    )
+//                }
+                DashboardScreen()
             }
         }
     }

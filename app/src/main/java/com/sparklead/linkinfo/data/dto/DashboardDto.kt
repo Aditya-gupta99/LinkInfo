@@ -1,5 +1,10 @@
 package com.sparklead.linkinfo.data.dto
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class DashboardDto(
     val applied_campaign: Int,
     val data: Data,
