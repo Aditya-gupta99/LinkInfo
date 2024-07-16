@@ -50,52 +50,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun LineGraphNew(
-    xData: List<Float>,
-    yData: List<Float>,
-    dataLabel: String,
-    modifier: Modifier
-) {
-    AndroidView(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(400.dp)
-            .background(White),
-        factory = { context ->
-            val chart = LineChart(context)
-            val chartData: List<Entry> = xData.zip(yData) { x, y -> Entry(x, y) }
-            val lineDataset = LineDataSet(chartData, "Overview")
-            lineDataset.apply {
-                setDrawIcons(false)
-                setDrawCircles(false)
-                setDrawCircleHole(false)
-                setDrawValues(false)
-                lineWidth = 3f
-                setDrawFilled(true)
-                fillDrawable = context.getDrawable(R.drawable.backgroud_blue)
-            }
-            lineDataset.color = context.getColor(R.color.black)
-            val dataSets = ArrayList<ILineDataSet>()
-            dataSets.add(lineDataset)
 
-            chart.description.isEnabled = false
-            chart.setTouchEnabled(true)
-            chart.setDrawGridBackground(false)
-            chart.setScaleEnabled(true)
-            chart.isDragEnabled = true
-            chart.axisRight.isEnabled = false
-            chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-            chart.setGridBackgroundColor(White.toArgb())
-            chart.legend.isEnabled = false
-            chart.data = LineData(dataSets)
-            lineDataset.notifyDataSetChanged()
-            chart.notifyDataSetChanged()
-            chart.invalidate()
-            chart
-        }
-    )
-}
 
 @Preview(showBackground = true)
 @Composable

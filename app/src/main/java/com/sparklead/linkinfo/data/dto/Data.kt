@@ -4,9 +4,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Data(
-    val overall_url_chart: Map<String, Long>,
+    val favourite_links: List<String?>,
 
-    val recent_links: List<Link>,
+    val overall_url_chart: String?,
 
-    val top_links: List<Link>
+    val recent_links: List<RecentLink>,
+
+    val top_links: List<TopLink>
 )
