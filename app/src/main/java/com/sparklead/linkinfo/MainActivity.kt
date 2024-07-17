@@ -1,10 +1,11 @@
-package com.sparklead.linkinfo.app
+package com.sparklead.linkinfo
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,6 +25,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.sparklead.linkinfo.R
+import com.sparklead.linkinfo.app.LinkInfo
 import com.sparklead.linkinfo.ui.home.DashboardScreen
 import com.sparklead.linkinfo.ui.theme.LinkInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,15 +38,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LinkInfoTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    LineGraphNew(
-//                        xData = List(10) { it.toFloat() },
-//                        yData = List(10) { (0..100).random().toFloat() },
-//                        dataLabel = "Sample Data",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                }
-                DashboardScreen()
+                LinkInfo()
             }
         }
     }
@@ -56,5 +50,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     LinkInfoTheme {
+        LinkInfo()
     }
 }

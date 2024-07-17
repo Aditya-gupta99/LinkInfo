@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -81,6 +82,7 @@ import com.sparklead.linkinfo.ui.theme.SweetError
 
 @Composable
 fun DashboardScreen(
+    padding: PaddingValues,
     viewModel: DashboardViewModel = hiltViewModel()
 ) {
     val state by viewModel.dashboardUiState.collectAsStateWithLifecycle()
@@ -92,6 +94,7 @@ fun DashboardScreen(
 
     DashboardScreen(
         state = state,
+        padding = padding,
         analyticsDataList = analyticsDataList,
         onRetry = {
             viewModel.getDashboardDetails()
@@ -102,12 +105,13 @@ fun DashboardScreen(
 @Composable
 fun DashboardScreen(
     state: DashboardUiState,
+    padding: PaddingValues,
     analyticsDataList: List<AnalyticsData>,
     onRetry: () -> Unit
 ) {
 
     Scaffold(
-        modifier = Modifier.padding(),
+        modifier = Modifier.padding(padding),
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = PrimaryBlue),

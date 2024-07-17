@@ -86,7 +86,7 @@ class DashboardViewModel @Inject constructor(
         _analyticsDataList.value = tempList
     }
 
-    private fun mapAnalyticsGraphData(overallUrlChart: String?) {
+    private fun mapAnalyticsGraphData(overallUrlChart: Map<String,Int>) {
 
     }
 }
