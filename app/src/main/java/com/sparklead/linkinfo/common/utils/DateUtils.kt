@@ -1,7 +1,10 @@
 package com.sparklead.linkinfo.common.utils
 
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 object DateUtils {
 
@@ -24,6 +27,13 @@ object DateUtils {
             in 12..17 -> "Good Afternoon"
             else -> "Good Evening"
         }
+    }
+
+    fun dateFormatter(timestamp: String): String {
+        val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        val result: Date? = df.parse(timestamp)
+        val requiredFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+        return requiredFormat.format(result)
     }
 
 }

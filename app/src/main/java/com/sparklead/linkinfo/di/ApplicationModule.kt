@@ -46,7 +46,8 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun providesDashboardService(client: HttpClient,prefManager: PrefManager): DashboardService = DashboardServiceImp(client,prefManager)
+    fun providesDashboardService(client: HttpClient, prefManager: PrefManager): DashboardService =
+        DashboardServiceImp(client, prefManager)
 
     @Provides
     fun providesDashboardRepository(dashboardService: DashboardService): DashboardRepository =

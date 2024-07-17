@@ -61,6 +61,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
@@ -71,9 +73,11 @@ import com.sparklead.linkinfo.common.utils.DateUtils
 import com.sparklead.linkinfo.data.dto.AnalyticsData
 import com.sparklead.linkinfo.data.dto.AnalyticsGraphData
 import com.sparklead.linkinfo.data.dto.DashboardDto
+import com.sparklead.linkinfo.data.dto.Data
 import com.sparklead.linkinfo.data.dto.Link
 import com.sparklead.linkinfo.ui.theme.BackgroundLight
 import com.sparklead.linkinfo.ui.theme.BlueLight
+import com.sparklead.linkinfo.ui.theme.BlueLightShade
 import com.sparklead.linkinfo.ui.theme.CircularProgress
 import com.sparklead.linkinfo.ui.theme.Green
 import com.sparklead.linkinfo.ui.theme.GreenLight
@@ -123,7 +127,7 @@ fun DashboardScreen(
                 colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = PrimaryBlue),
                 title = {
                     Text(
-                        text = "Dashboard",
+                        text = stringResource(id = R.string.dashboard_title),
                         modifier = Modifier.fillMaxWidth(),
                         style = TextStyle(
                             fontSize = 24.sp,
@@ -138,11 +142,11 @@ fun DashboardScreen(
                 actions = {
                     Card(
                         modifier = Modifier.padding(8.dp),
-                        colors = CardDefaults.cardColors(Color(0xFF2b81ff))
+                        colors = CardDefaults.cardColors(BlueLightShade)
                     ) {
                         IconButton(
                             onClick = {},
-                            colors = IconButtonDefaults.iconButtonColors(Color(0xFF2b81ff))
+                            colors = IconButtonDefaults.iconButtonColors(BlueLightShade)
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_settings),
@@ -189,7 +193,7 @@ fun DashboardScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Aditya Gupta",
+                            text = stringResource(id = R.string.user_name),
                             modifier = Modifier,
                             style = TextStyle(
                                 fontSize = 24.sp,
@@ -208,6 +212,7 @@ fun DashboardScreen(
                         )
                     }
 
+                    // based on state calling different compose
                     when (state) {
                         is DashboardUiState.DashboardDetails -> {
                             DashboardContent(
@@ -291,7 +296,7 @@ fun DashboardContent(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Overview",
+                text = stringResource(id = R.string.overview),
                 modifier = Modifier,
                 style = TextStyle(
                     fontSize = 20.sp,
@@ -337,6 +342,7 @@ fun DashboardContent(
             }
         }
 
+        // Analytics Graph Composable
         LineGraphNew(
             xData = analyticsGraphData.xData,
             xValue = analyticsGraphData.xValue,
@@ -346,6 +352,7 @@ fun DashboardContent(
         Spacer(modifier = Modifier.height(8.dp))
     }
 
+    // Analytics List Composable
     LazyRow(modifier = Modifier.padding(start = 8.dp)) {
         items(analyticsDataList) { analyticsData ->
             AnalyticsCardItem(
@@ -354,6 +361,7 @@ fun DashboardContent(
         }
     }
 
+    // view all Analytics Composable
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -376,7 +384,7 @@ fun DashboardContent(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "View Analytics",
+                text = stringResource(id = R.string.view_analytics),
                 modifier = Modifier,
                 style = TextStyle(
                     fontSize = 20.sp,
@@ -390,6 +398,7 @@ fun DashboardContent(
         }
     }
 
+    // Top Links , Recent Links , Search composable
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -406,7 +415,7 @@ fun DashboardContent(
                 )
             ) {
                 Text(
-                    text = "Top Links",
+                    text = stringResource(id = R.string.top_links),
                     modifier = Modifier,
                     style = TextStyle(
                         fontSize = 20.sp,
@@ -427,7 +436,7 @@ fun DashboardContent(
                 )
             ) {
                 Text(
-                    text = "Recent Links",
+                    text = stringResource(id = R.string.recent_links),
                     modifier = Modifier,
                     style = TextStyle(
                         fontSize = 20.sp,
@@ -457,14 +466,20 @@ fun DashboardContent(
         }
     }
 
+    // Links lazy column
     LazyColumn(modifier = Modifier.height(links.size * 148.dp)) {
         items(links) { link ->
             LinkCard(link, onCopy = {
-                Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.copied_to_clipboard),
+                    Toast.LENGTH_SHORT
+                ).show()
             })
         }
     }
 
+    // view all links composable
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -487,7 +502,7 @@ fun DashboardContent(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "View All Links",
+                text = stringResource(id = R.string.view_all_links),
                 modifier = Modifier,
                 style = TextStyle(
                     fontSize = 20.sp,
@@ -503,6 +518,7 @@ fun DashboardContent(
 
     Spacer(modifier = Modifier.width(16.dp))
 
+    // Talk with us composable
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -525,7 +541,7 @@ fun DashboardContent(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Talk with us",
+                text = stringResource(id = R.string.talk_with_us),
                 modifier = Modifier,
                 style = TextStyle(
                     fontSize = 20.sp,
@@ -539,6 +555,7 @@ fun DashboardContent(
         }
     }
 
+    // Frequently asked questions composable
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -561,7 +578,7 @@ fun DashboardContent(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Frequently Asked Questions",
+                text = stringResource(id = R.string.frequently_asked_questions),
                 modifier = Modifier,
                 style = TextStyle(
                     fontSize = 20.sp,
@@ -577,6 +594,8 @@ fun DashboardContent(
     Spacer(modifier = Modifier.height(16.dp))
 }
 
+
+// card item for analytics
 @Composable
 fun AnalyticsCardItem(
     analyticsData: AnalyticsData
@@ -612,7 +631,7 @@ fun AnalyticsCardItem(
                 textAlign = TextAlign.Start
             )
             Text(
-                text = analyticsData.title,
+                text = stringResource(id = analyticsData.title),
                 modifier = Modifier.padding(start = 4.dp, top = 4.dp, end = 8.dp, bottom = 4.dp),
                 style = TextStyle(
                     fontSize = 20.sp,
@@ -627,9 +646,56 @@ fun AnalyticsCardItem(
     }
 }
 
+// preview provider
+class DashboardScreenUiStateProvider : PreviewParameterProvider<DashboardUiState> {
 
-@Preview
-@Composable
-private fun DashboardScreenPreview() {
-
+    override val values: Sequence<DashboardUiState>
+        get() = sequenceOf(
+            DashboardUiState.DashboardDetails(sampleDashboardDetails),
+            DashboardUiState.Error(R.string.failed_to_load_detail),
+            DashboardUiState.Loading
+        )
 }
+
+// preview
+@Preview(showBackground = true)
+@Composable
+private fun DashboardScreenPreview(
+    @PreviewParameter(DashboardScreenUiStateProvider::class) state: DashboardUiState
+) {
+    DashboardScreen(
+        state = state,
+        analyticsGraphData = AnalyticsGraphData(
+            emptyList(), emptyList(), emptyList(), Pair("", "")
+        ),
+        padding = PaddingValues(10.dp),
+        analyticsDataList = emptyList(),
+        onRetry = {}
+    )
+}
+
+// sample preview parameters
+val sampleData = Data(
+    favourite_links = emptyList(),
+    recent_links = emptyList(),
+    overall_url_chart = emptyMap(),
+    top_links = emptyList()
+)
+
+// sample preview parameters
+val sampleDashboardDetails = DashboardDto(
+    applied_campaign = 1,
+    data = sampleData,
+    extra_income = 0.0,
+    links_created_today = 10,
+    message = "Hi",
+    startTime = "",
+    status = true,
+    statusCode = 200,
+    support_whatsapp_number = "999999",
+    today_clicks = 9,
+    top_location = "Bangalore",
+    top_source = "Hilt",
+    total_clicks = 11,
+    total_links = 11
+)

@@ -1,5 +1,6 @@
 package com.sparklead.linkinfo.data.serviceImp
 
+import com.sparklead.linkinfo.common.utils.Constants
 import com.sparklead.linkinfo.data.datastore.PrefManager
 import com.sparklead.linkinfo.data.dto.DashboardDto
 import com.sparklead.linkinfo.data.remote.HttpRoutes
@@ -20,8 +21,8 @@ class DashboardServiceImp(private val client: HttpClient, private val prefManage
             client.get {
                 url(HttpRoutes.GET_DASHBOARD_DATA)
                 header(
-                    "Authorization",
-                    prefManager.readStringValue("token").first()
+                    Constants.AUTH_HEADER,
+                    prefManager.readStringValue(Constants.HEADER_TOKEN).first()
                 )
                 contentType(ContentType.Application.Json)
             }

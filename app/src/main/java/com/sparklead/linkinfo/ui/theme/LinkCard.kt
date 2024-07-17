@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -48,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.sparklead.linkinfo.R
+import com.sparklead.linkinfo.common.utils.DateUtils
 import com.sparklead.linkinfo.data.dto.Link
 
 @Composable
@@ -114,16 +116,33 @@ fun LinkCard(link: Link, onCopy: () -> Unit) {
                         )
                     }
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
-                            text = "22 Aug 2022",
+                            text = DateUtils.dateFormatter(link.createdDate),
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Normal,
+                                fontStyle = FontStyle.Normal,
+                                fontFamily = FontFamily(Font(R.font.outfit_light))
+                            ),
+                            maxLines = 1,
                             color = Color.Gray,
-                            fontSize = 12.sp,
+                            textAlign = TextAlign.Start
                         )
-                        Text(text = "Clicks", color = Color.Gray, fontSize = 12.sp)
-
+                        Text(
+                            text = stringResource(id = R.string.clicks),
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Normal,
+                                fontStyle = FontStyle.Normal,
+                                fontFamily = FontFamily(Font(R.font.outfit_light))
+                            ),
+                            maxLines = 1,
+                            color = Color.Gray,
+                            textAlign = TextAlign.Start
+                        )
                     }
                 }
             }
