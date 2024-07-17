@@ -1,5 +1,6 @@
 package com.sparklead.linkinfo.ui.theme
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,11 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CopyAll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -35,6 +33,7 @@ import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
@@ -116,7 +115,9 @@ fun LinkCard(link: Link, onCopy: () -> Unit) {
                         )
                     }
                     Row(
-                        modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 4.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
@@ -179,10 +180,9 @@ fun LinkCard(link: Link, onCopy: () -> Unit) {
                     },
                     modifier = Modifier.size(20.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.CopyAll,
-                        contentDescription = "Copy link",
-                        tint = Color(0xFF0E6FFF)
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_copy),
+                        contentDescription = "Copy link"
                     )
                 }
             }

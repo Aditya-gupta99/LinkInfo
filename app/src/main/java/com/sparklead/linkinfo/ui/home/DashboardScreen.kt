@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -50,6 +51,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -68,6 +70,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.size.Size
 import com.sparklead.linkinfo.R
 import com.sparklead.linkinfo.common.utils.DateUtils
 import com.sparklead.linkinfo.data.dto.AnalyticsData
@@ -119,6 +122,7 @@ fun DashboardScreen(
     analyticsDataList: List<AnalyticsData>,
     onRetry: () -> Unit
 ) {
+    val configuration = LocalConfiguration.current
 
     Scaffold(
         modifier = Modifier.padding(padding),
@@ -211,8 +215,6 @@ fun DashboardScreen(
                             contentDescription = null
                         )
                     }
-
-                    // based on state calling different compose
                     when (state) {
                         is DashboardUiState.DashboardDetails -> {
                             DashboardContent(
@@ -222,12 +224,31 @@ fun DashboardScreen(
                             )
                         }
 
-                        is DashboardUiState.Error -> SweetError(message = stringResource(id = state.message)) {
-                            onRetry()
+                        is DashboardUiState.Error -> {
+                            Column(
+                                modifier = Modifier.fillMaxSize().heightIn(max = configuration.screenHeightDp.dp - 100.dp),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                SweetError(message = stringResource(id = state.message)) {
+                                    onRetry()
+                                }
+                            }
                         }
 
-                        is DashboardUiState.Loading -> CircularProgress()
+                        is DashboardUiState.Loading -> {
+                            Column(
+                                modifier = Modifier.fillMaxSize().heightIn(max = configuration.screenHeightDp.dp - 100.dp),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                CircularProgress()
+                            }
+                        }
                     }
+
+
+                    // based on state calling different compose
                 }
             }
         }
@@ -668,7 +689,7 @@ private fun DashboardScreenPreview(
         analyticsGraphData = AnalyticsGraphData(
             emptyList(), emptyList(), emptyList(), Pair("", "")
         ),
-        padding = PaddingValues(10.dp),
+        padding = PaddingValues(0.dp),
         analyticsDataList = emptyList(),
         onRetry = {}
     )
