@@ -23,8 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -91,13 +89,10 @@ fun SweetError(
 
 
 @Composable
-fun CircularProgress(
-    contentDesc: String = "loadingIndicator",
-) {
+fun CircularProgress() {
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .semantics { contentDescription = contentDesc },
+            .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator(

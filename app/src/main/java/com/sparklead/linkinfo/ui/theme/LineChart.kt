@@ -14,12 +14,14 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.sparklead.linkinfo.R
 
 @Composable
 fun LineGraphNew(
     xData: List<Float>,
+    xValue: List<String>,
     yData: List<Float>,
     modifier: Modifier
 ) {
@@ -55,6 +57,7 @@ fun LineGraphNew(
             chart.setGridBackgroundColor(Color.White.toArgb())
             chart.legend.isEnabled = false
             chart.data = LineData(dataSets)
+            chart.xAxis.valueFormatter = object : IndexAxisValueFormatter(xValue) {}
             lineDataset.notifyDataSetChanged()
             chart.notifyDataSetChanged()
             chart.invalidate()

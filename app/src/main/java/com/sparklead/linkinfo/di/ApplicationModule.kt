@@ -1,5 +1,6 @@
 package com.sparklead.linkinfo.di
 
+import com.sparklead.linkinfo.data.datastore.PrefManager
 import com.sparklead.linkinfo.data.repository.DashboardRepositoryImp
 import com.sparklead.linkinfo.data.service.DashboardService
 import com.sparklead.linkinfo.data.serviceImp.DashboardServiceImp
@@ -45,7 +46,7 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun providesDashboardService(client: HttpClient): DashboardService = DashboardServiceImp(client)
+    fun providesDashboardService(client: HttpClient,prefManager: PrefManager): DashboardService = DashboardServiceImp(client,prefManager)
 
     @Provides
     fun providesDashboardRepository(dashboardService: DashboardService): DashboardRepository =

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sparklead.linkinfo.R
 import com.sparklead.linkinfo.common.Resource
+import com.sparklead.linkinfo.data.datastore.PrefManager
 import com.sparklead.linkinfo.data.dto.AnalyticsData
 import com.sparklead.linkinfo.data.dto.AnalyticsGraphData
 import com.sparklead.linkinfo.domain.usecase.GetDashboardDataUseCase
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val getDashboardDataUseCase: GetDashboardDataUseCase
+    private val getDashboardDataUseCase: GetDashboardDataUseCase,
+    private val prefManager: PrefManager
 ) : ViewModel() {
 
     private val _dashboardUiState = MutableStateFlow<DashboardUiState>(DashboardUiState.Loading)
@@ -29,10 +31,14 @@ class DashboardViewModel @Inject constructor(
 
     private val _analyticsGraphData = MutableStateFlow<AnalyticsGraphData>(
         AnalyticsGraphData(
-            emptyList(), emptyList(), ""
+            emptyList(), emptyList(), emptyList(), Pair("","")
         )
     )
     val analyticsGraphData = _analyticsGraphData.asStateFlow()
+
+    fun saveToken() = viewModelScope.launch(Dispatchers.IO) {
+        prefManager.saveStringValue("token","Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjU5MjcsImlhdCI6MTY3NDU1MDQ1MH0.dCkW0ox8tbjJA2GgUx2UEwNlbTZ7Rr38PVFJevYcXFI")
+    }
 
     fun getDashboardDetails() = viewModelScope.launch(Dispatchers.IO) {
         getDashboardDataUseCase().collect { result ->
@@ -87,6 +93,22 @@ class DashboardViewModel @Inject constructor(
     }
 
     private fun mapAnalyticsGraphData(overallUrlChart: Map<String,Int>) {
-
+        val xData = mutableListOf<Float>()
+        val xValue = mutableListOf<String>()
+        val yData = mutableListOf<Float>()
+        var start = "0"
+        var end = "0"
+        overallUrlChart.keys.forEachIndexed { index, key ->
+            if(index == 0) {
+                start = key
+            }
+            if(index == overallUrlChart.size - 1) {
+                end = key
+            }
+            xData.add(index.toFloat())
+            xValue.add(key)
+            overallUrlChart[key]?.let { yData.add(it.toFloat()) }
+        }
+        _analyticsGraphData.value = AnalyticsGraphData(xData = xData,xValue = xValue,yData= yData, Pair(start,end))
     }
 }

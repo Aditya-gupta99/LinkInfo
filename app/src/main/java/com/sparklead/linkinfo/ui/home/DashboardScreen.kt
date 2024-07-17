@@ -67,7 +67,9 @@ import androidx.compose.ui.unit.times
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sparklead.linkinfo.R
+import com.sparklead.linkinfo.common.utils.DateUtils
 import com.sparklead.linkinfo.data.dto.AnalyticsData
+import com.sparklead.linkinfo.data.dto.AnalyticsGraphData
 import com.sparklead.linkinfo.data.dto.DashboardDto
 import com.sparklead.linkinfo.data.dto.Link
 import com.sparklead.linkinfo.ui.theme.BackgroundLight
@@ -87,13 +89,16 @@ fun DashboardScreen(
 ) {
     val state by viewModel.dashboardUiState.collectAsStateWithLifecycle()
     val analyticsDataList by viewModel.analyticsDataList.collectAsStateWithLifecycle()
+    val analyticsGraphData by viewModel.analyticsGraphData.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
+        viewModel.saveToken()
         viewModel.getDashboardDetails()
     }
 
     DashboardScreen(
         state = state,
+        analyticsGraphData = analyticsGraphData,
         padding = padding,
         analyticsDataList = analyticsDataList,
         onRetry = {
@@ -105,6 +110,7 @@ fun DashboardScreen(
 @Composable
 fun DashboardScreen(
     state: DashboardUiState,
+    analyticsGraphData: AnalyticsGraphData,
     padding: PaddingValues,
     analyticsDataList: List<AnalyticsData>,
     onRetry: () -> Unit
@@ -130,14 +136,20 @@ fun DashboardScreen(
                     )
                 },
                 actions = {
-                    IconButton(onClick = {
-
-                    }, colors = IconButtonDefaults.iconButtonColors(Color(0xFF2b81ff))) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_settings),
-                            contentDescription = null,
-                            tint = White
-                        )
+                    Card(
+                        modifier = Modifier.padding(8.dp),
+                        colors = CardDefaults.cardColors(Color(0xFF2b81ff))
+                    ) {
+                        IconButton(
+                            onClick = {},
+                            colors = IconButtonDefaults.iconButtonColors(Color(0xFF2b81ff))
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_settings),
+                                contentDescription = null,
+                                tint = White
+                            )
+                        }
                     }
                 }
             )
@@ -157,7 +169,7 @@ fun DashboardScreen(
             ) {
                 Column {
                     Text(
-                        text = "Good Morning",
+                        text = DateUtils.getGreetingMessage(),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(start = 16.dp, top = 16.dp, bottom = 4.dp),
@@ -200,7 +212,8 @@ fun DashboardScreen(
                         is DashboardUiState.DashboardDetails -> {
                             DashboardContent(
                                 details = state.details,
-                                analyticsDataList = analyticsDataList
+                                analyticsDataList = analyticsDataList,
+                                analyticsGraphData = analyticsGraphData
                             )
                         }
 
@@ -220,7 +233,8 @@ fun DashboardScreen(
 @Composable
 fun DashboardContent(
     details: DashboardDto,
-    analyticsDataList: List<AnalyticsData>
+    analyticsDataList: List<AnalyticsData>,
+    analyticsGraphData: AnalyticsGraphData
 ) {
     val context = LocalContext.current
     var topLink by rememberSaveable { mutableStateOf(true) }
@@ -298,7 +312,10 @@ fun DashboardContent(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "22 Aug - 23 Sept",
+                        text = DateUtils.overviewSpan(
+                            analyticsGraphData.span.first,
+                            analyticsGraphData.span.second
+                        ),
                         modifier = Modifier,
                         style = TextStyle(
                             fontSize = 16.sp,
@@ -321,8 +338,9 @@ fun DashboardContent(
         }
 
         LineGraphNew(
-            xData = List(10) { it.toFloat() },
-            yData = List(10) { (0..100).random().toFloat() },
+            xData = analyticsGraphData.xData,
+            xValue = analyticsGraphData.xValue,
+            yData = analyticsGraphData.yData,
             modifier = Modifier.padding(8.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -556,6 +574,7 @@ fun DashboardContent(
             )
         }
     }
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
